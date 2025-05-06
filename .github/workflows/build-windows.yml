@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Check out repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python 3.11
@@ -23,23 +23,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           playwright install
+        shell: bash
 
       - name: Build single-file EXE
         run: |
-          pyinstaller --onefile --windowed ^
-            --add-data "creds.json;." ^
-            --add-data "images;images" ^
+          pyinstaller --onefile --windowed `
+            --add-data "creds.json;." `
+            --add-data "images;images" `
             main.py
+        shell: pwsh
 
       - name: Install Inno Setup
         run: choco install innosetup -y
+        shell: powershell
 
       - name: Compile Windows Installer
         run: |
           &"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+        shell: powershell
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v1
         with:
           name: WhatsAppBatchSender
           path: |
