@@ -38,10 +38,9 @@ jobs:
           &"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: WhatsAppBatchSender
           path: |
             dist/WhatsAppBatchSender.exe
             WhatsAppBatchSenderSetup.exe
-
